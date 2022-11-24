@@ -5,47 +5,47 @@
     <title>Система регистрации обращений</title>
 </head>
 <body>
-<form action="action_page.php">
+<form action="/" method="POST">
     <p class="title title_form_field">В электронной анкете в
         обращении укажите Ваши:</p>
-    <div class="form__field form__field_long">
-        <label for="id-last_name">Фамилию</label>
-        <input
-                type="text"
-                id="id-last_name"
-                name="last_name"
-                value=""
-                maxlength="30"
-                title="Фамилия"/>
+    <div>
+        <p><label for="id-last_name">Фамилию</label>
+            <input type="text"
+                   id="id-last_name"
+                   name="last_name"
+                   value=""
+                   maxlength="30"
+                   title="Фамилия"/></p>
     </div>
 
-    <div class="form__field form__field_long">
-        <label for="id-first_name">Имя</label>
-        <input type="text"
-               id="id-first_name"
-               name="first_name"
-               value=""
-               maxlength="30"
-               title="Имя"/>
+    <div>
+        <p><label for="id-first_name">Имя</label>
+            <input type="text"
+                   id="id-first_name"
+                   name="first_name"
+                   value=""
+                   maxlength="30"
+                   title="Имя"/></p>
     </div>
 
-    <div class="form__field form__field_long">
-        <label for="id-second_name">Отчество</label>
-        <input type="text"
-               id="id-second_name"
-               name="second_name"
-               value=""
-               maxlength="30"
-               title="Отчество"/></div>
+    <div>
+        <p><label for="id-second_name">Отчество</label>
+            <input type="text"
+                   id="id-second_name"
+                   name="second_name"
+                   value=""
+                   maxlength="30"
+                   title="Отчество"/></p>
+    </div>
 
-    <div class="form__field form__field_long">
-        <label for="id-last_name">Моб. телефон</label>
-        <input type="tel"
-               id="id-tel"
-               name="telephone"
-               value=""
-               maxlength="12"
-               title="Телефон"/>
+    <div>
+        <p><label for="id-last_name">Моб. телефон</label>
+            <input type="tel"
+                   id="id-tel"
+                   name="telephone"
+                   value=""
+                   maxlength="12"
+                   title="Телефон"/></p>
     </div>
 
     <p class="title">В поле ввода текста
@@ -58,8 +58,8 @@
                       cols="100"
                       rows="20"></textarea>
     </div>
-    <div class="row">
-        <input type="submit" value="Отправить">
+    <div >
+        <button type="submit">Отправить заявку</button>
     </div>
 </form>
 </body>
