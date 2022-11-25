@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Система регистрации обращений</title>
+    <script>
+        function toggleButton() {
+            var last_name = document.getElementById('id-last_name').value;
+            var first_name = document.getElementById('id-first_name').value;
+            var second_name = document.getElementById('id-second_name').value;
+            var telephone = document.getElementById('id-tel').value;
+            var body = document.getElementById('id-body').value;
+
+            document.getElementById('submitButton').disabled = !(last_name &&
+                first_name && second_name && telephone && body);
+        }
+    </script>
 </head>
 <body>
 <form action="/" method="POST">
@@ -15,7 +27,8 @@
                    name="last_name"
                    value=""
                    maxlength="30"
-                   title="Фамилия"/></p>
+                   title="Фамилия"
+                   onchange="toggleButton()"></p>
     </div>
 
     <div>
@@ -25,7 +38,8 @@
                    name="first_name"
                    value=""
                    maxlength="30"
-                   title="Имя"/></p>
+                   title="Имя"
+                   onchange="toggleButton()"></p>
     </div>
 
     <div>
@@ -35,7 +49,8 @@
                    name="second_name"
                    value=""
                    maxlength="30"
-                   title="Отчество"/></p>
+                   title="Отчество"
+                   onchange="toggleButton()"></p>
     </div>
 
     <div>
@@ -45,7 +60,8 @@
                    name="telephone"
                    value=""
                    maxlength="12"
-                   title="Телефон"/></p>
+                   title="Телефон"
+                   onchange="toggleButton()"></p>
     </div>
 
     <p class="title">В поле ввода текста
@@ -56,10 +72,11 @@
                       name="body"
                       class="textarea_body"
                       cols="100"
-                      rows="20"></textarea>
+                      rows="20"
+                      onchange="toggleButton()"></textarea>
     </div>
-    <div >
-        <button type="submit">Отправить заявку</button>
+    <div>
+        <input id="submitButton" type="submit" value="Отправить заявку" disabled/>
     </div>
 </form>
 </body>
