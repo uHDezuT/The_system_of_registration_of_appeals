@@ -11,7 +11,7 @@
             var telephone = document.getElementById('id-tel').value;
             var body = document.getElementById('id-body').value;
 
-            document.getElementById('submitButton').disabled = !(last_name &&
+            document.getElementById("submit").disabled = !(last_name &&
                 first_name && second_name && telephone && body);
         }
     </script>
@@ -61,6 +61,7 @@
                    value=""
                    maxlength="12"
                    title="Телефон"
+                   placeholder="+7(___)-___-__-__"
                    onchange="toggleButton()"></p>
     </div>
 
@@ -73,10 +74,11 @@
                       class="textarea_body"
                       cols="100"
                       rows="20"
+                      placeholder="Не менее 20 символов"
                       onchange="toggleButton()"></textarea>
     </div>
-    <div>
-        <input id="submitButton" type="submit" value="Отправить заявку" disabled/>
+    <div class="form-submit">
+        <button type="submit">Отправить сообщение</button>
     </div>
 </form>
 </body>

@@ -4,6 +4,7 @@ from tornado.ioloop import IOLoop
 from rabbitmq.send_message import send_message, receive_message
 
 
+# ../frontend/register_form.html"
 class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
@@ -16,18 +17,8 @@ class MainHandler(tornado.web.RequestHandler):
         second_name = self.get_argument('second_name')
         telephone = self.get_argument('telephone')
         body = self.get_argument('body')
-        # if last_name == '':
-        #     print('Заполните поле <Фамилия>')
-        # elif first_name == '':
-        #     print('Заполните поле <Имя>')
-        # elif second_name == '':
-        #     print('Заполните поле <Отчество>')
-        # elif telephone == '':
-        #     print('Заполните поле <Телефон>')
-        # elif body == '':
-        #     print('Напишите текст заявки')
-        # else:
-        attribute = last_name, first_name, second_name, telephone, body
+        attribute = (last_name.encode('CP-1251'), first_name.encode('CP-1251'),
+                     second_name.encode('CP-1251'), telephone.encode('CP-1251'), body.encode('CP-1251'))
         send_message(str(attribute))
         receive_message()
         # return print(attribute)
@@ -41,11 +32,11 @@ def make_app():
 
 async def main():
     app = make_app()
-    app.listen(8001)
+    app.listen(8000)
     tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(8000)
+    app.listen(8002)
     tornado.ioloop.IOLoop.current().start()
