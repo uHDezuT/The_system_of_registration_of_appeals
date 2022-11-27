@@ -2,18 +2,18 @@ import db_models
 
 
 # Add File to DB
-def add_file_to_db(db, **kwargs):
-    new_file = db_models.Appeals(
+def add_appeal_to_db(db, **kwargs):
+    new_appeal = db_models.Appeals(
         last_name=kwargs['last_name'],
         first_name=kwargs['first_name'],
         second_name=kwargs['second_name'],
         telephone=kwargs['telephone'],
         body=kwargs['body']
     )
-    db.add(new_file)
+    db.add(new_appeal)
     db.commit()
-    db.refresh(new_file)
-    return new_file
+    db.refresh(new_appeal)
+    return new_appeal
 
 
 # Delete file from DB
