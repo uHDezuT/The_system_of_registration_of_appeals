@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from methods import *
-from settings import *
+from schema import *
 
 import db_models
 from db_connect import engine, SessionLocal
