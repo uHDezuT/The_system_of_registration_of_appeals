@@ -1,6 +1,11 @@
 import db_models
 
 
+# Get file info from DB
+def get_appeal_from_db(db):
+    return db.query(db_models.Appeals).all()
+
+
 # Add File to DB
 def add_appeal_to_db(db, **kwargs):
     new_appeal = db_models.Appeals(
@@ -17,6 +22,6 @@ def add_appeal_to_db(db, **kwargs):
 
 
 # Delete file from DB
-def delete_file_from_db(db, file_info_from_db):
+def delete_appeal_from_db(db, file_info_from_db):
     db.delete(file_info_from_db)
     db.commit()

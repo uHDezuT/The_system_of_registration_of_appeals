@@ -1,12 +1,16 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from .settings import settings
 
-SQLALCHEMY_DATABASE_URL = '...'
+engine = create_engine(
+    settings.database_url,
+    connect_args={'check_same_thread': False}
+    # допускаем одно подключение из нескольких потоков
+)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(engine,
+                            autocommit=False,
+                            autoflush=False)
 
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
-Base = declarative_base()

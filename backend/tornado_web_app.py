@@ -17,12 +17,12 @@ class MainHandler(tornado.web.RequestHandler):
         second_name = self.get_argument('second_name')
         telephone = self.get_argument('telephone')
         body = self.get_argument('body')
-        attribute = {'last_name': last_name, 'first_name': first_name,
+        attribute = {'last_name': last_name,
+                     'first_name': first_name,
                      'second_name': second_name,
-                     'telephone': telephone, 'body': body}
-        send_message(attribute)
-        receive_message()
-        # return print(attribute)
+                     'telephone': telephone,
+                     'body': body}
+        return attribute
 
 
 def make_app():
@@ -39,5 +39,5 @@ async def main():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(8002)
+    app.listen(8000)
     tornado.ioloop.IOLoop.current().start()
