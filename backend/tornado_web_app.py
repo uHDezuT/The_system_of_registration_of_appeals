@@ -22,7 +22,8 @@ class MainHandler(tornado.web.RequestHandler):
                      'second_name': second_name,
                      'telephone': telephone,
                      'body': body}
-        return attribute
+        send_message(attribute)
+        # return print(attribute)
 
 
 def make_app():

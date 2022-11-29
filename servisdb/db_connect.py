@@ -9,8 +9,15 @@ engine = create_engine(
     # допускаем одно подключение из нескольких потоков
 )
 
-SessionLocal = sessionmaker(engine,
-                            autocommit=False,
-                            autoflush=False)
+Session = sessionmaker(engine,
+                       autocommit=False,
+                       autoflush=False)
 
 
+def get_session() -> Session:  # механизм внедрения зависимостей для
+    # автоматического открытия и закрытия сессии
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()

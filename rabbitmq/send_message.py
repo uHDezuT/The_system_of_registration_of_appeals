@@ -1,7 +1,7 @@
 import pika
 
 
-def send_message(attr: list):
+def send_message(attr: dict):  # добавление словаря в очередь
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         '127.0.0.1'))
     channel = connection.channel()
