@@ -1,5 +1,6 @@
-import pika
 import json
+
+import pika
 
 
 def send_message(attr: dict):  # добавление словаря в очередь
@@ -14,19 +15,16 @@ def send_message(attr: dict):  # добавление словаря в очер
     connection.close()
 
 
-def receive_message():
+def receive_message():  # Пока извлечение из очереди с ошибкой!!!!!!!!!
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         host='localhost',
         port=5672))
     channel = connection.channel()
-
     channel.queue_declare(queue='appeal')
 
     def callback(ch, method, properties, body):
-        print(" [x] Received %r" % json.loads(body))
+        print(json.loads(body))
 
-    channel.basic_qos(prefetch_count=1)
     channel.basic_consume(callback,
                           queue='appeal')
-
     channel.start_consuming()

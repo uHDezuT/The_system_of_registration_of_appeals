@@ -23,6 +23,7 @@ class MainHandler(tornado.web.RequestHandler):
                      'telephone': telephone,
                      'body': body}
         send_message(attribute)
+        receive_message()
         # return print(attribute)
 
 
