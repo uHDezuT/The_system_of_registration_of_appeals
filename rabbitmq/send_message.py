@@ -23,7 +23,7 @@ class PikaClient:
     всю связь с RabbitMQ.
     """
 
-    def __init__(self, process_callable):
+    def __init__(self):
         self.publish_queue_name = 'appeal'  # Имя очереди для отправки сообщений
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(host='localhost',
@@ -33,10 +33,6 @@ class PikaClient:
             queue=self.publish_queue_name)
         self.callback_queue = self.publish_queue.method.queue
         self.response = None
-        self.process_callable = process_callable  # вызываемый обратный вызов,
-
-        # который будет обрабатывать фактическую бизнес-логику
-        # для обработки входящего сообщения
 
     def send_message(self, message: dict):
         """Method to publish message to RabbitMQ"""
