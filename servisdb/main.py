@@ -1,3 +1,5 @@
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 import asyncio
 import aiormq
 
@@ -9,6 +11,8 @@ import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Table, Column, Integer, String
 from databases import Database
+
+app = FastAPI()
 
 exchange_name = os.environ.get("EXCHANGE_NAME")
 rabbitmq_host = os.environ.get("RABBITMQ_HOST")

@@ -1,10 +1,9 @@
 import tornado.web
 from tornado.ioloop import IOLoop
 
-from rabbitmq.send_message import send_message, receive_message
+from rabbitmq.send_message import PikaClient
 
 
-# ../frontend/register_form.html"
 class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
@@ -22,7 +21,7 @@ class MainHandler(tornado.web.RequestHandler):
                      'second_name': second_name,
                      'telephone': telephone,
                      'body': body}
-        send_message(attribute)
+        PikaClient().send_message(attribute)
         # return print(attribute)
 
 
@@ -30,12 +29,6 @@ def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
     ])
-
-
-async def main():
-    app = make_app()
-    app.listen(8000)
-    tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == "__main__":
