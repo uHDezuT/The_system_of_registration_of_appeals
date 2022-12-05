@@ -14,7 +14,8 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.11.4-management
+    hostname: rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -23,6 +24,18 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
+  tornado:
+    build:
+      context: .
+      dockerfile: backend/dockerfile
+    restart: always
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - rabbitmq
+    command: bash -c "python backend/tornado_web_app.py"
 
 volumes:
   pgdata:

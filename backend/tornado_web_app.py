@@ -1,16 +1,16 @@
+import json
+import pika
+import tornado.ioloop
 import tornado.web
-from tornado.ioloop import IOLoop
+from tornado.web import RequestHandler
+from sender import PikaClient
 
-from rabbitmq.send_message import PikaClient
 
-
-class MainHandler(tornado.web.RequestHandler):
-
+class MainHandler(RequestHandler):
     def get(self):
-        self.render("../frontend/register_form.html")
+        self.render("frontend/register_form.html")
 
-    def post(self) -> list[str]:
-        self.render("../frontend/register_form.html")
+    def post(self):
         last_name = self.get_argument('last_name')
         first_name = self.get_argument('first_name')
         second_name = self.get_argument('second_name')
@@ -21,17 +21,35 @@ class MainHandler(tornado.web.RequestHandler):
                      'second_name': second_name,
                      'telephone': telephone,
                      'body': body}
-        PikaClient().send_message(attribute)
-        # return print(attribute)
+        data = json.dumps(attribute)
+        # if not self.application.pika.connecting:
+        self.application.pika.connect()
+        self.application.pika.channel.basic_publish(exchange="test",
+                                                    queue='appeal',
+                                                    body=data,
+                                                    properties=
+                                                    pika.BasicProperties(
+                                                        delivery_mode=2))
+
+        print("Push successfully.")
+        self.render("frontend/register_form.html")
+
 
 
 def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-    ])
+    handlers = [
+        (r"/", MainHandler)
+    ]
+    app = tornado.web.Application(handlers=handlers, debug=True)
+    return app
 
 
-if __name__ == "__main__":
-    app = make_app()
-    app.listen(8000)
-    tornado.ioloop.IOLoop.current().start()
+if __name__ == '__main__':
+    ioloop = tornado.ioloop.IOLoop.instance()
+
+    application = make_app()
+    application.pika = PikaClient(ioloop)
+    application.pika.connect()
+
+    application.listen(8000)
+    ioloop.start()

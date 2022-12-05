@@ -1,5 +1,3 @@
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
 import asyncio
 import aiormq
 
@@ -11,8 +9,6 @@ import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Table, Column, Integer, String
 from databases import Database
-
-app = FastAPI()
 
 exchange_name = os.environ.get("EXCHANGE_NAME")
 rabbitmq_host = os.environ.get("RABBITMQ_HOST")
@@ -71,7 +67,7 @@ async def consume():
     await channel.basic_qos(prefetch_count=1)
 
     await channel.exchange_declare(
-        exchange=exchange_name, exchange_type='direct'
+        exchange=exchange_name,
     )
 
     declare = await channel.queue_declare(durable=True, auto_delete=True)

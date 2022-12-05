@@ -3,21 +3,6 @@ import json
 import pika
 
 
-def receive_message():  # Пока извлечение из очереди с ошибкой!!!!!!!!!
-    connection = pika.BlockingConnection(pika.ConnectionParameters(
-        host='localhost',
-        port=5672))
-    channel = connection.channel()
-    channel.queue_declare(queue='appeal')
-
-    def callback(ch, method, properties, body):
-        print(json.loads(body))
-
-    channel.basic_consume(callback,
-                          queue='appeal')
-    channel.start_consuming()
-
-
 class PikaClient:
     """Настройка клиент Pika, который будет обрабатывать
     всю связь с RabbitMQ.
@@ -26,8 +11,10 @@ class PikaClient:
     def __init__(self):
         self.publish_queue_name = 'appeal'  # Имя очереди для отправки сообщений
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost',
-                                      port=5672))
+            pika.ConnectionParameters(host="rabbitmq",
+                                      port=5672,
+                                      username="user",
+                                      password="password"))
         self.channel = self.connection.channel()
         self.publish_queue = self.channel.queue_declare(
             queue=self.publish_queue_name)
