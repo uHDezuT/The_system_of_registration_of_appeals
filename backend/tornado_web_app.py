@@ -3,7 +3,7 @@ import pika
 import tornado.ioloop
 import tornado.web
 from tornado.web import RequestHandler
-from sender import PikaClient
+from sender import PikaClientSend
 
 
 class MainHandler(RequestHandler):
@@ -23,16 +23,17 @@ class MainHandler(RequestHandler):
                      'body': body}
         data = json.dumps(attribute)
         # if not self.application.pika.connecting:
-        self.application.pika.connect()
-        self.application.pika.channel.basic_publish(exchange="test",
-                                                    queue='appeal',
-                                                    body=data,
-                                                    properties=
-                                                    pika.BasicProperties(
-                                                        delivery_mode=2))
-
+        # self.application.pika.connect()
+        # self.application.pika.channel.basic_publish(exchange="test",
+        #                                             queue='appeal',
+        #                                             body=data,
+        #                                             properties=
+        #                                             pika.BasicProperties(
+        #                                                 delivery_mode=2))
+        PikaClientSend().main(data)
         print("Push successfully.")
         self.render("frontend/register_form.html")
+
 
 
 
@@ -48,8 +49,6 @@ if __name__ == '__main__':
     ioloop = tornado.ioloop.IOLoop.instance()
 
     application = make_app()
-    application.pika = PikaClient(ioloop)
-    application.pika.connect()
 
     application.listen(8000)
     ioloop.start()
