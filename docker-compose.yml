@@ -36,6 +36,17 @@ services:
       - db
       - rabbitmq
     command: bash -c "python backend/tornado_web_app.py"
+  fastapi:
+    build:
+      context: .
+      dockerfile: servisdb/dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - rabbitmq
+    command: bash -c "python servisdb/app.py"
 
 volumes:
   pgdata:

@@ -1,14 +1,16 @@
 import json
-import pika
+import os
+
 import tornado.ioloop
 import tornado.web
 from tornado.web import RequestHandler
+
 from sender import PikaClientSend
 
 
 class MainHandler(RequestHandler):
     def get(self):
-        self.render("frontend/register_form.html")
+        self.render("register_form.html")
 
     def post(self):
         last_name = self.get_argument('last_name')
@@ -22,33 +24,35 @@ class MainHandler(RequestHandler):
                      'telephone': telephone,
                      'body': body}
         data = json.dumps(attribute)
-        # if not self.application.pika.connecting:
-        # self.application.pika.connect()
-        # self.application.pika.channel.basic_publish(exchange="test",
-        #                                             queue='appeal',
-        #                                             body=data,
-        #                                             properties=
-        #                                             pika.BasicProperties(
-        #                                                 delivery_mode=2))
         PikaClientSend().main(data)
-        print("Push successfully.")
-        self.render("frontend/register_form.html")
+        self.redirect('/successful')
 
 
 
+class DoubleHandler(RequestHandler):
+    def get(self):
+        self.render("end_form.html")
 
-def make_app():
-    handlers = [
-        (r"/", MainHandler)
-    ]
-    app = tornado.web.Application(handlers=handlers, debug=True)
-    return app
+
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", MainHandler),
+            (r"/successful", DoubleHandler)
+        ]
+        settings = {
+            "debug": True,
+            "static_path": os.path.join(os.path.dirname(__file__), "static"),
+            "template_path": os.path.join(os.path.dirname(__file__),
+                                          "templates")
+        }
+        tornado.web.Application.__init__(self, handlers, **settings)
 
 
 if __name__ == '__main__':
     ioloop = tornado.ioloop.IOLoop.instance()
 
-    application = make_app()
+    application = Application()
 
     application.listen(8000)
     ioloop.start()
